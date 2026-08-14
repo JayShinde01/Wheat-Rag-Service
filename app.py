@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import uuid
@@ -9,8 +8,8 @@ from rag.chroma_service import ChromaService
 from rag.embedding_service import EmbeddingService
 from rag.document_service import DocumentService
 
+
 app = Flask(__name__)
-CORS(app)
 
 CORS(
     app,
@@ -18,8 +17,7 @@ CORS(
         r"/*": {
             "origins": [
                 "http://localhost:5173",
-                "https://wheatd.netlify.app",
-                "*"
+                "https://wheatd.netlify.app"
             ]
         }
     },
@@ -27,7 +25,9 @@ CORS(
     allow_headers=["Content-Type", "Authorization"]
 )
 
+
 os.makedirs("uploads", exist_ok=True)
+
 
 chroma_service = ChromaService()
 embedding_service = EmbeddingService()
@@ -47,7 +47,6 @@ def health():
 def upload_document():
 
     if "file" not in request.files:
-
         return jsonify({
             "error": "No file uploaded"
         }), 400
@@ -74,13 +73,9 @@ def upload_document():
 
     try:
 
-        # 1. Extract text
-
         text = document_service.extract_text(
             file_path
         )
-
-        # 2. Chunk
 
         chunks = document_service.chunk_text(
             text
@@ -92,15 +87,11 @@ def upload_document():
                 "error": "No text extracted from PDF"
             }), 400
 
-        # 3. Embeddings
-
         embeddings = (
             embedding_service.embed_documents(
                 chunks
             )
         )
-
-        # 4. IDs
 
         document_id = str(uuid.uuid4())
 
@@ -108,8 +99,6 @@ def upload_document():
             f"{document_id}-{i}"
             for i in range(len(chunks))
         ]
-
-        # 5. Metadata
 
         metadatas = [
             {
@@ -119,8 +108,6 @@ def upload_document():
             }
             for i in range(len(chunks))
         ]
-
-        # 6. Store in ChromaDB
 
         chroma_service.add_documents(
             ids=ids,

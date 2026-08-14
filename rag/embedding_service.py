@@ -8,14 +8,17 @@ class EmbeddingService:
     def __init__(self):
 
         self.model = SentenceTransformer(
-            EMBEDDING_MODEL
+            EMBEDDING_MODEL,
+            device="cpu"
         )
 
     def embed_documents(self, documents):
 
         embeddings = self.model.encode(
             documents,
-            normalize_embeddings=True
+            batch_size=4,
+            normalize_embeddings=True,
+            show_progress_bar=False
         )
 
         return embeddings.tolist()
@@ -24,7 +27,9 @@ class EmbeddingService:
 
         embedding = self.model.encode(
             query,
-            normalize_embeddings=True
+            batch_size=1,
+            normalize_embeddings=True,
+            show_progress_bar=False
         )
 
         return embedding.tolist()

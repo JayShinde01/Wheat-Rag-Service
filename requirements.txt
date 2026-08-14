@@ -1,4 +1,5 @@
 flask
+gunicorn
 chromadb
 sentence-transformers
 pypdf

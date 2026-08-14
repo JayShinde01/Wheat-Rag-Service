@@ -7,36 +7,33 @@ class DocumentService:
 
         reader = PdfReader(file_path)
 
-        pages = []
+        text_parts = []
 
         for page in reader.pages:
 
             text = page.extract_text()
 
             if text:
-                pages.append(text)
+                text_parts.append(text)
 
-        return "\n".join(pages)
+        return "\n".join(text_parts)
 
     def chunk_text(
-            self,
-            text,
-            chunk_size=1000,
-            overlap=200):
+        self,
+        text,
+        chunk_size=1000,
+        overlap=200
+    ):
 
         chunks = []
 
-        start = 0
+        step = chunk_size - overlap
 
-        while start < len(text):
+        for start in range(0, len(text), step):
 
-            end = start + chunk_size
-
-            chunk = text[start:end].strip()
+            chunk = text[start:start + chunk_size].strip()
 
             if chunk:
                 chunks.append(chunk)
-
-            start += chunk_size - overlap
 
         return chunks
