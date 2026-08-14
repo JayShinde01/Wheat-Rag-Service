@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import logging
 import os
 import uuid
 
@@ -10,6 +11,8 @@ from rag.document_service import DocumentService
 
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 CORS(
     app,

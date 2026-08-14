@@ -15,4 +15,4 @@ RUN mkdir -p /app/uploads
 
 EXPOSE 5001
 
-CMD ["gunicorn", "app:app", "--workers", "1", "--threads", "2", "--timeout", "120", "--bind", "0.0.0.0:5001"]
+CMD ["sh", "-c", "gunicorn app:app --workers 1 --threads 2 --timeout 120 --bind 0.0.0.0:${PORT:-5001}"]
