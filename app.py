@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import uuid
 
@@ -7,8 +9,23 @@ from rag.chroma_service import ChromaService
 from rag.embedding_service import EmbeddingService
 from rag.document_service import DocumentService
 
-
 app = Flask(__name__)
+CORS(app)
+
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": [
+                "http://localhost:5173",
+                "https://wheatd.netlify.app",
+                "*"
+            ]
+        }
+    },
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"]
+)
 
 os.makedirs("uploads", exist_ok=True)
 

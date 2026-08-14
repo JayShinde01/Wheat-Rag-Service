@@ -12,7 +12,7 @@ COLLECTION_NAME = os.getenv(
 
 EMBEDDING_MODEL = os.getenv(
     "EMBEDDING_MODEL",
-    "BAAI/bge-small-en-v1.5"
+    "all-MiniLM-L6-v2"
 )
 
 PORT = int(os.getenv("PORT", "5001"))
