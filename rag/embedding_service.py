@@ -6,15 +6,24 @@ from config import EMBEDDING_MODEL
 class EmbeddingService:
 
     def __init__(self):
+        self.model = None
 
-        self.model = SentenceTransformer(
-            EMBEDDING_MODEL,
-            device="cpu"
-        )
+    def _get_model(self):
+
+        if self.model is None:
+
+            self.model = SentenceTransformer(
+                EMBEDDING_MODEL,
+                device="cpu"
+            )
+
+        return self.model
 
     def embed_documents(self, documents):
 
-        embeddings = self.model.encode(
+        model = self._get_model()
+
+        embeddings = model.encode(
             documents,
             batch_size=4,
             normalize_embeddings=True,
@@ -25,7 +34,9 @@ class EmbeddingService:
 
     def embed_query(self, query):
 
-        embedding = self.model.encode(
+        model = self._get_model()
+
+        embedding = model.encode(
             query,
             batch_size=1,
             normalize_embeddings=True,

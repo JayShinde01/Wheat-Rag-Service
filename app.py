@@ -27,11 +27,20 @@ CORS(
 
 
 os.makedirs("uploads", exist_ok=True)
+logger.info("Starting application...")
 
-
+logger.info("Creating ChromaService...")
 chroma_service = ChromaService()
+logger.info("ChromaService created")
+
+logger.info("Creating EmbeddingService...")
 embedding_service = EmbeddingService()
+logger.info("EmbeddingService created")
+
+logger.info("Creating DocumentService...")
 document_service = DocumentService()
+logger.info("DocumentService created")
+
 
 
 @app.get("/")
