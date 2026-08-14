@@ -19,6 +19,7 @@ CORS(
     resources={
         r"/*": {
             "origins": [
+                "*",
                 "http://localhost:5173",
                 "https://wheatd.netlify.app"
             ]
